@@ -123,12 +123,13 @@ public class FlatPlanet3 {
                 Graphics2D g = image.createGraphics();
                 for (int j = 0; j < size; j++) {
                     for (int k = 0; k < size; k++) {
-                        float brightness = map[j][k];
-                        if (brightness < 0.0)
-                            brightness = 0.0f;
-                        if (brightness > 1.0)
-                            brightness = 1.0f;
-                        Color c = Color.getHSBColor(0.5f, 1.0f, brightness);
+//                        float brightness = map[j][k];
+//                        if (brightness < 0.0)
+//                            brightness = 0.0f;
+//                        if (brightness > 1.0)
+//                            brightness = 1.0f;
+//                        Color c = Color.getHSBColor(0.5f, 1.0f, brightness);
+                        Color c = getColor(map[j][k],ColorType.Grayscale);
                         g.setColor(c);
                         g.fill(new Rectangle2D.Double(j, k, 1.0, 1.0));
                     }
@@ -142,17 +143,40 @@ public class FlatPlanet3 {
         Graphics2D g = image.createGraphics();
         for (int j = 0; j < size; j++) {
             for (int k = 0; k < size; k++) {
-                float brightness = map[j][k];
-                if (brightness < 0.0)
-                    brightness = 0.0f;
-                if (brightness > 1.0)
-                    brightness = 1.0f;
-                Color c = Color.getHSBColor(0.5f, 1.0f, brightness);
+//                float brightness = map[j][k];
+//                if (brightness < 0.0)
+//                    brightness = 0.0f;
+//                if (brightness > 1.0)
+//                    brightness = 1.0f;
+//                Color c = Color.getHSBColor(0.5f, 1.0f, brightness);
+                Color c = getColor(map[j][k],ColorType.Grayscale);
                 g.setColor(c);
                 g.fill(new Rectangle2D.Double(j, k, 1.0, 1.0));
             }
         }
-        File imageFile = new File(String.format("flat-plane.png"));
+        File imageFile = new File(String.format("flat-planet.png"));
         ImageIO.write(image, "png", imageFile);
+    }
+
+    enum ColorType {Color, Grayscale}
+
+    ;
+
+    Color getColor(float a, ColorType colorType) {
+        Color c = null;
+        float b = a;
+        if (b < 0.0)
+            b = 0.0f;
+        if (b > 1.0)
+            b = 1.0f;
+        switch (colorType) {
+            case Color:
+                c = Color.getHSBColor(0.5f, 1.0f, b);
+                break;
+            case Grayscale:
+                c = Color.getHSBColor(0.0f, 0.0f, b);
+                break;
+        }
+        return c;
     }
 }
